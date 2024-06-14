@@ -7,12 +7,12 @@ export class UserService {
     return await db.query.UsersTable.findMany();
   }
 
-  async getUserById(id: number): Promise<TSUsersTable | undefined> {
-    const user = await db.query.UsersTable.findFirst({where: eq(UsersTable.id, id),});
+  async getUserById(id: number): Promise<TIUsersTable | undefined> {
+    const user = await db.query.UsersTable.findFirst({ where: eq(UsersTable.id, id) });
     return user;
   }
 
-  async createUser(user: TIUsersTable): Promise<TIUsersTable> {
+  async createUser(user: TIUsersTable): Promise<TSUsersTable> {
     const [newUser] = await db.insert(UsersTable).values(user).returning();
     return newUser;
   }
@@ -23,5 +23,10 @@ export class UserService {
       .where(eq(UsersTable.id, id))
       .returning();
     return updatedUser;
+  }
+
+  async deleteUser(id: number) {
+      await db.delete(UsersTable).where(eq(UsersTable.id, id));
+      return "User deleted successfully"
   }
 }
