@@ -3,10 +3,10 @@ import { DriverController } from "./driver.controller";
 
 const driverRouter = new Hono();
 
-driverRouter.get("/city", DriverController.getAllDrivers);
-driverRouter.get("/city/:id", DriverController.getDriverById);
-driverRouter.post("/city", DriverController.createDriver);
-driverRouter.put("/city/:id", DriverController.updateDriver);
-driverRouter.delete("/city/:id", DriverController.deleteDriver);
+driverRouter.get("/driver", DriverController.getAllDrivers);
+driverRouter.get("/driver/:id", DriverController.getDriverById);
+driverRouter.post("/driver", DriverController.createDriver);
+driverRouter.put("/driver/:id", DriverController.updateDriver);
+driverRouter.delete("/driver/:id", DriverController.deleteDriver);
 
 export default driverRouter;
