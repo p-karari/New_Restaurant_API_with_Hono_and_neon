@@ -11,7 +11,7 @@ export class MenuItemController{
     static async getItemById(c: Context) {
         const id = Number(c.req.param("id"));
         const item = await menuItemService.getItemById(id);
-        if (MenuItemController) {
+        if (item) {
             return c.json(item, 200);
           } else {
             return c.json({ message: "Item not found" }, 404);
