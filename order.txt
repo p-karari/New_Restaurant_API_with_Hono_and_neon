@@ -11,8 +11,92 @@ OrdersTable: Insert orders next, as order status, comments, and delivery address
 OrderStatusTable: Insert order status next, as orders depend on order status.
 DriverTable: Insert drivers last, as orders depend on drivers.
 
+//////////////////////
 
+Apart from the basic CRUD operations (Create, Read, Update, Delete), you can implement various other services for the given schema. Here are some examples:
 
+1. **Authentication**: Implement services for user authentication, including login, logout, and token management.
+
+2. **Search**: Implement search functionality to search for users, restaurants, or other entities based on certain criteria.
+
+3. **Order Processing**: Implement services for order processing, including creating new orders, updating order status, and calculating order totals.
+
+4. **Notifications**: Implement services for sending notifications to users, such as order updates or promotions.
+
+5. **Reporting**: Implement services for generating reports, such as sales reports or user activity reports.
+
+6. **User Management**: Implement services for managing users, including creating new users, updating user information, and deleting users.
+
+7. **Restaurant Management**: Implement services for managing restaurants, including adding new restaurants, updating restaurant information, and deleting restaurants.
+
+Here's an example of how you could implement an additional service, such as user authentication, using the given schema:
+
+```typescript
+// Define AuthToken table
+export const AuthTokenTable = pgTable('auth_token', {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id").references(() => UsersTable.id),
+    token: varchar("token"),
+    createdAt: timestamp("created_at"),
+    expiresAt: timestamp("expires_at"),
+});
+
+export const AuthTokenRelations = relations(AuthTokenTable, ({ one }) => ({
+    user: one(UsersTable, {
+        fields: [AuthTokenTable.userId],
+        references: [UsersTable.id]
+    })
+}));
+
+// Define UserService
+export class UserService {
+    // Other CRUD operations...
+
+    async authenticate(email: string, password: string): Promise<{ token: string }> {
+        const user = await db.query.UsersTable.findFirst({ where: { email } });
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        if (user.password !== password) {
+            throw new Error("Invalid password");
+        }
+
+        // Generate and save authentication token
+        const token = generateToken();
+        await db.insert(AuthTokenTable).values({ userId: user.id, token }).execute();
+
+        return { token };
+    }
+
+    async logout(userId: number): Promise<void> {
+        await db.delete(AuthTokenTable).where(eq(AuthTokenTable.userId, userId)).execute();
+    }
+}
+
+// Example usage in UserController
+export class UserController {
+    // Other methods...
+
+    async login(c: Context) {
+        const { email, password } = await c.req.json();
+        try {
+            const { token } = await userService.authenticate(email, password);
+            return c.json({ token }, 200);
+        } catch (error) {
+            return c.json({ error: error.message }, 401);
+        }
+    }
+
+    async logout(c: Context) {
+        const userId = c.req.user.id; // Assuming req.user contains authenticated user details
+        await userService.logout(userId);
+        return c.text("Logout successful", 200);
+    }
+}
+```
+
+This is just one example, and there are many other services you could implement depending on your application's requirements.
 
 ////////////////////
 Implementing Order Processing, Notifications, and Reporting services involves several steps. Below is a basic outline for each:
@@ -89,3 +173,9 @@ export class ReportingService {
 ```
 
 These are basic implementations, and you may need to customize them based on your specific requirements and the features provided by your database and notification service.
+
+
+///////////////
+june 7 to june 9
+june 1 to june 5
+may 26th and may 28th

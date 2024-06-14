@@ -1,4 +1,4 @@
-import {pgTable, serial, varchar, integer, timestamp, boolean, primaryKey, foreignKey, text } from "drizzle-orm/pg-core";
+import {pgTable, serial, varchar, integer, timestamp, boolean,pgEnum, primaryKey, foreignKey, text } from "drizzle-orm/pg-core";
 import {relations} from "drizzle-orm";
 
 
@@ -12,8 +12,8 @@ export const UsersTable = pgTable('users', {
     emailVerified: boolean("email_verified"),
     confirmationCode: varchar("confirmation_code"),
     password: varchar("password"),
-    createdAt: timestamp("created_at"),
-    updatedAt: timestamp("updated_at"),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow(),
     address: integer("address_id"),
     comment: integer("comment_id"),
     driver: integer("driver_id"),
@@ -186,8 +186,28 @@ export const OrderMenuItemTable = pgTable('order_menu_item', {
     orders: integer("orders"),
 });
 
+//auth table
+export const roleEnum = pgEnum("role", ["admin", "user"])
+
+export const AuthOnUsersTable = pgTable('auth_on_users', {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id").notNull().references(() => UsersTable.id, { onDelete: "cascade" }),
+    password: varchar("password", { length: 100 }),
+    username: varchar("username", { length: 100 }),
+    role: roleEnum("role").default("user")
+});
+
+
+
 
 //relationships
+
+export const AuthOnUsersRelations = relations(AuthOnUsersTable, ({ one }) => ({
+    user: one(UsersTable, {
+        fields: [AuthOnUsersTable.userId],
+        references: [UsersTable.id]
+    })
+}));
 
 export const UserRelations = relations(UsersTable, ({ one, many }) => ({
     addresses: many(AddressTable),
@@ -314,6 +334,10 @@ export const OrderMenuItemRelations = relations(OrderMenuItemTable, ({ one }) =>
     })
 }));
 
+
+export type TIAuthOnUser = typeof AuthOnUsersTable.$inferInsert;
+export type TSAuthOnUser = typeof AuthOnUsersTable.$inferSelect;
+
 export type TIRestaurantTable = typeof RestaurantTable.$inferInsert;
 export type TSRestaurantTable = typeof RestaurantTable.$inferSelect;
 export type TIUsersTable = typeof UsersTable.$inferInsert;
@@ -326,6 +350,8 @@ export type TIAddressTable = typeof AddressTable.$inferInsert;
 export type TSAddressTable = typeof AddressTable.$inferSelect;
 export type TIRestaurantOwnerTable = typeof RestaurantOwnerTable.$inferInsert;
 export type TSRestaurantOwnerTable = typeof RestaurantOwnerTable.$inferSelect;
+export type TICategoryTable = typeof CategoryTable.$inferInsert;
+export type TSCategoryTable = typeof CategoryTable.$inferSelect;
 export type TIMenuItemTable = typeof MenuItemTable.$inferInsert;
 export type TSMenuItemTable = typeof MenuItemTable.$inferSelect;
 export type TIOrderMenuItemTable = typeof OrderMenuItemTable.$inferInsert;

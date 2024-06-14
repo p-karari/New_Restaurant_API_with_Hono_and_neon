@@ -1,0 +1,330 @@
+GET http://localhost:3000/users
+###
+//getting single user
+GET http://localhost:3000/users/1
+
+
+//creating a user
+###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "id": 3,
+  "name": "Michelle",
+  "contactPhone": "245785568",
+  "phoneVerified": true,
+  "email": "michelle@email.com",
+  "emailVerified": true,
+  "confirmationCode": "223",
+  "password": "1234",
+  "createdAt": null,
+  "updatedAt": null,
+  "address": 3,
+  "comment": 3,
+  "driver": 3,
+  "restaurantOwner": 3
+}
+
+###
+DELETE http://localhost:3000/users/3
+
+
+###
+//updating a user
+PUT http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+    "id": 1, 
+    "name": "karari kelvin",
+    "email": "kelvink@email.com"
+}
+
+//states
+//get all states
+
+###
+GET http://localhost:3000/states
+//get single state
+###
+GET http://localhost:3000/states/6
+
+//create state
+###
+POST http://localhost:3000/states
+Content-Type: application/json
+
+{"id": 6, "name": "Uganda", "code": "006", "city": "kampala2" }
+//# { "id": 7, "name": "Uganda", "code": "007", "city": "kampala3" }
+//# { "id": 8, "name": "Uganda", "code": "008", "city": "kampala4" }
+
+//update states
+###
+PUT http://localhost:3000/states/6
+Content-Type: application/json
+
+{
+    "id": 6,
+    "name": "kenya",
+    "city": "embu"
+  }
+
+//delete state
+###
+DELETE http://localhost:3000/states/3
+
+//city
+//get all cities
+
+###
+GET http://localhost:3000/city
+
+//get city by id
+###
+GET http://localhost:3000/city/3
+
+//create city
+###
+POST http://localhost:3000/city
+Content-Type: application/json
+
+{
+    "id": 5,
+    "name": "kampala",
+    "stateId": 5,
+    "address": "005",
+    "state": "uganda",
+    "restaurant": "kampala cafe3"
+  }
+//update city
+###
+PUT http://localhost:3000/city/2
+Content-Type: application/json
+
+{
+    "id": 2,
+    "name": "naks",
+    "stateId": 3,
+    "address": "003",
+    "state": "kenya",
+    "restaurant": "nakuru resort"
+}
+
+//delete city
+###
+DELETE http://localhost:3000/city/1
+
+
+//address table
+###
+GET http://localhost:3000/address
+
+//create addres
+###
+POST http://localhost:3000/address
+Content-Type: application/json
+
+{
+    "id": 2,
+    "streetAddress1": "004",
+    "streetAddress2": "005",
+    "zipCode": "401-Naks",
+    "deliveryInstructions": "no delay",
+    "city": "nakuru",
+    "users": "michael",
+    "orders": 12
+  }
+
+//update address
+###
+PUT http://localhost:3000/address/2
+Content-Type: application/json
+
+{
+    "id": 2,
+    "streetAddress1": "002",
+    "streetAddress2": "002",
+    "userId": 2,
+    "cityId": 2,
+    "orders": 8
+}
+
+
+
+//restaurant
+###
+GET http://localhost:3000/restaurant
+
+//create restaurant
+###
+POST http://localhost:3000/restaurant
+Content-Type: application/json
+
+{
+    "id": 5,
+    "name": "kampala cafe3",
+    "streetAddress": "506-kampala",
+    "zipCode": "506-kampala",
+    "cityId": 5,
+    "menu_item": "Banana, Tea",
+    "orders": 36,
+    "city": "uganda",
+    "restaurant_owner": "okech"
+}
+
+//update restaurant
+###
+PUT HTTP://localhost:3000/restaurant/5
+Content-Type: application/json
+
+ {
+    "id": 5,
+    "name": "kampala elegance",
+    "streetAddress": "508-kampala",
+    "zipCode": "508",
+    "cityId": 5,
+    "menu_item": "mchele mix, ugali mix, chapati mix",
+    "orders": 43,
+    "city": "uganda",
+    "restaurant_owner": "maina daudi"
+  }
+
+//delete restaurant
+###
+DELETE http://localhost:3000/restaurant/2
+
+//restaurant owner table
+###
+GET http://localhost:3000/rOwner
+
+//create restaunt owner entry
+###
+POST http://localhost:3000/rOwner
+Content-Type: application/json
+
+{
+    "id": 4,
+    "restaurantId": 4,
+    "ownerId": 1,
+    "users": " michael",
+    "restaurant": "nak's Resort"
+  }
+
+//delete restaurantOwner
+###
+DELETE http://localhost:3000/rOwner/3
+
+
+
+//category
+###
+GET http://localhost:3000/category
+
+//create category
+###
+POST http://localhost:3000/category
+Content-Type: application/json
+
+{
+    "id": 6,
+    "name": "fruits",
+    "menu_item": "grape, banana"
+  }
+
+# update category
+###
+PUT http://localhost:3000/category/6
+Content-Type: application/json
+
+{
+  "id": 6,
+    "name": "fruits",
+    "menu_item": "grape, banana, apples"
+}
+
+//delete category
+###
+DELETE http://localhost:3000/address/2
+
+//menu item
+###
+//get all
+GET http://localhost:3000/menu/item/3
+
+//create menu item
+###
+POST http://localhost:3000/menu/item
+Content-Type: application/json
+
+{
+  "id": 4,
+  "name": "steak",
+  "restaurantId": 4,
+  "categoryId": 2,
+  "description": "meedium rare, spicy",
+  "ingredients": "beef, cinaseasoningsmmon",
+  "price": 800,
+  "active": false,
+  "category": "meat",
+  "restaurant": "nak's resort",
+  "order_menu_item": "medium rare"
+  }
+
+//update menu item
+###
+PUT http://localhost:3000/menu/item/3
+Content-Type: application/json
+
+{
+  "id": 3,
+  "price": 18000
+}
+
+//delete menu item
+###
+DELETE  http://localhost:3000/menu/item/3
+
+//orders table
+###
+//get 
+GET http://localhost:3000/order
+
+//create order
+###
+POST http://localhost:3000/order 
+Content-Type: application/json
+
+{
+  
+}
+
+//driver
+###
+GET http://localhost:3000/users
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtaWtlIiwicm9sZSI6ImFkbWluIiwiZXhwIjoxNzE4Mjk2MDgzfQ.hQ10hhVFxNLMEL3NIygD2thZfxNRHYVQHoIOEjno7sg
+//
+###
+# GET http://localhost:3000/users
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+  "id": 3,
+  "userId": 3,
+  "password": "mikepassword",
+  "username": "mike",
+  "role": "admin"
+}
+
+//logging in
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "username": "mike",
+  "password": "mikepassword"
+}
+
+
