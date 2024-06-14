@@ -1,7 +1,7 @@
-GET http://localhost:3000/users
+GET http://localhost:3000/ok
 ###
 //getting single user
-GET http://localhost:3000/users/1
+GET http://localhost:3000/ok
 
 
 //creating a user
@@ -45,6 +45,7 @@ Content-Type: application/json
 //get all states
 
 ###
+
 GET http://localhost:3000/states
 //get single state
 ###
