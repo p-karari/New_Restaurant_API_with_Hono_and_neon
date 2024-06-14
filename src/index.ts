@@ -15,6 +15,7 @@ import menuItemRouter from './drizzle/menuItem/menuItem.router';
 import orderRouter from './drizzle/orders/order.router';
 import statusRouter from './drizzle/orderStatus/order.status.router';
 import driverRouter from './drizzle/driver/driver.router';
+import { authRouter } from './drizzle/auth/auth.router';
 
 const app = new Hono();
 
@@ -36,6 +37,7 @@ app.route("/", menuItemRouter);
 app.route("/", orderRouter);
 app.route("/", statusRouter);
 app.route("/", driverRouter);
+app.route("/", authRouter )
 
 serve({
   fetch: app.fetch,
